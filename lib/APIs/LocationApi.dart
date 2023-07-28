@@ -53,12 +53,12 @@ class _CountryStateDropdownsState extends State<CountryStateDropdowns> {
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: DropdownButton<String>(
             isExpanded: true,
-            value: selectedCountry,
+            value: selectedCountry == "" ? null : selectedCountry,
             hint: Text('Select a country'),
             onChanged: (newValue) {
               setState(() {
+                selectedState = '';
                 selectedCountry = newValue;
-                selectedState = null; // Reset the state when country changes
 
                 if (selectedCountry != null) {
                   fetchStatesForCountry(selectedCountry!);
@@ -67,7 +67,7 @@ class _CountryStateDropdownsState extends State<CountryStateDropdowns> {
             },
             items: countries.map((country) {
               return DropdownMenuItem<String>(
-                value: country.countryId, // Pass the countryId as the value
+                value: country.countryId,
                 child: Text(country.countryName!),
               );
             }).toList(),
@@ -90,7 +90,7 @@ class _CountryStateDropdownsState extends State<CountryStateDropdowns> {
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: DropdownButton<String>(
             isExpanded: true,
-            value: selectedState,
+            value: selectedState == "" ? null : selectedState,
             hint: Text('Select a state'),
             onChanged: (newValue) {
               setState(() {
@@ -135,13 +135,11 @@ class _CountryStateDropdownsState extends State<CountryStateDropdowns> {
       });
     } else {
       setState(() {
-        states = []; // Clear the states list if no valid data is received
+        states = [];
       });
     }
   }
 }
-
-// ... Rest of the code remains unchanged.
 
 class CountryModel {
   final String? countryId;
